@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For My Cutie Beauty ❤</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,500&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0a0506;--blood:#8a0b12;--red:#c1121f;--custard:#b8932f;--cream:#f1dfa8}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at top,#2a0609 0%,var(--black) 60%);color:var(--cream);font-family:Quicksand,sans-serif;min-height:100vh}
+h1,h2,h3{font-family:'Playfair Display',serif}
+.hidden{display:none!important}
+
+/* ===== EDIT THESE (see CONFIG in script too) ===== */
+
+/* gate */
+#gate{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center;background:var(--black);z-index:50}
+#gate h1{font-size:2rem;color:var(--red)}
+#gate input{margin:0;padding:12px 16px;border-radius:30px;border:2px solid var(--blood);background:#150a0b;color:var(--cream);font-size:1rem;text-align:center;width:min(300px,90%)}
+button{cursor:pointer;font-family:inherit;font-size:1rem;padding:12px 26px;border-radius:30px;border:0;background:linear-gradient(135deg,var(--red),var(--blood));color:var(--cream);font-weight:600;box-shadow:0 0 18px #c1121f66}
+button.alt{background:transparent;border:2px solid var(--custard);color:var(--custard);box-shadow:none}
+#err{color:#ff6b6b;min-height:1.2em}
+
+/* nav */
+nav{position:sticky;top:0;z-index:20;display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px;background:#0a0506ee;border-bottom:1px solid var(--blood)}
+nav button{background:transparent;box-shadow:none;border:1px solid var(--blood);padding:8px 14px;font-size:.85rem}
+nav button.on{background:var(--blood);border-color:var(--red)}
+
+main{max-width:640px;margin:auto;padding:24px 20px 140px}
+section{display:none}
+section.on{display:block}
+.hero{text-align:center;padding:60px 0 30px}
+.hero h1{font-size:clamp(2rem,8vw,3.2rem);color:var(--red);text-shadow:0 0 30px #c1121f88}
+.hero p{margin-top:12px;color:var(--custard);font-style:italic}
+.names{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:30px 0}
+.names span{padding:8px 16px;border-radius:30px;border:1px solid var(--custard);background:#1a0c0d;color:var(--cream)}
+.names span:nth-child(3n){border-color:var(--red)}
+.names span:nth-child(3n+1){background:var(--blood)}
+.love{background:#150a0b;border-left:4px solid var(--red);padding:18px;border-radius:10px;margin:18px 0;line-height:1.7}
+h2{color:var(--custard);margin:20px 0 10px;font-size:1.8rem;text-align:center}
+
+/* gift */
+#giftBox{text-align:center;padding:30px 10px}
+#giftBox .box{font-size:5rem;user-select:none;-webkit-user-select:none;display:inline-block;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.q{background:#150a0b;border:1px solid var(--blood);border-radius:16px;padding:18px;margin:18px 0}
+.q h3{font-size:1.1rem;margin-bottom:12px;color:var(--cream)}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;background:#240c0f;border:1px solid var(--blood);box-shadow:none;font-weight:400}
+.opt.sel{background:var(--red);border-color:var(--cream)}
+.done{text-align:center;margin:30px 0}
+
+/* gallery */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.grid img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:14px;border:2px solid var(--blood)}
+.empty{text-align:center;color:var(--custard);padding:30px}
+
+/* jumping girl */
+#girl{position:fixed;right:6px;top:40%;width:84px;z-index:30;pointer-events:none;transition:transform .12s ease-out;filter:drop-shadow(0 0 10px #c1121f88)}
+@media (prefers-reduced-motion:reduce){#girl{transition:none}#giftBox .box{animation:none}}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+  <h1>For my Cutie Beauty ❤</h1>
+  <p>Type the secret phrase to open your surprise</p>
+  <input id="nameIn" placeholder="Secret phrase" autocomplete="off">
+  <div id="err"></div>
+  <button onclick="enter()">Open</button>
+</div>
+
+<!-- JUMPING CHARACTER (inline SVG chibi) -->
+<svg id="girl" class="hidden" viewBox="0 0 100 130" aria-hidden="true">
+  <g id="girlBody">
+    <ellipse cx="50" cy="48" rx="34" ry="36" fill="#2b1214"/>
+    <rect x="20" y="48" width="14" height="40" rx="7" fill="#2b1214"/>
+    <rect x="66" y="48" width="14" height="40" rx="7" fill="#2b1214"/>
+    <circle cx="50" cy="52" r="28" fill="#f6d3b3"/>
+    <path d="M22 46Q50 8 78 46Q64 30 50 32Q36 30 22 46Z" fill="#2b1214"/>
+    <circle cx="40" cy="54" r="4.5" fill="#1a0a0b"/><circle cx="60" cy="54" r="4.5" fill="#1a0a0b"/>
+    <circle cx="41.5" cy="52.5" r="1.5" fill="#fff"/><circle cx="61.5" cy="52.5" r="1.5" fill="#fff"/>
+    <ellipse cx="32" cy="63" rx="5" ry="3" fill="#ff8a8a" opacity=".7"/><ellipse cx="68" cy="63" rx="5" ry="3" fill="#ff8a8a" opacity=".7"/>
+    <path d="M44 66Q50 72 56 66" stroke="#c1121f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M62 20l6-10 6 10-6 4z" fill="#c1121f"/><path d="M62 20l-6-10-6 10 6 4z" fill="#c1121f" transform="translate(-12 4)"/>
+    <path d="M30 80h40l8 34H22z" fill="#c1121f"/>
+    <rect x="34" y="114" width="12" height="12" rx="5" fill="#f6d3b3"/><rect x="54" y="114" width="12" height="12" rx="5" fill="#f6d3b3"/>
+    <rect x="12" y="84" width="14" height="8" rx="4" fill="#f6d3b3"/><rect x="74" y="84" width="14" height="8" rx="4" fill="#f6d3b3"/>
+  </g>
+</svg>
+
+<div id="app" class="hidden">
+<nav>
+  <button class="on" data-t="home">Home</button>
+  <button data-t="gift">Here Is The Gift For You</button>
+  <button data-t="pics">My Favourite Pictures</button>
+</nav>
+<main>
+
+<section id="home" class="on">
+  <div class="hero">
+    <h1>I have a gift for you, my pretty little girl</h1>
+    <p>Made only for you, Cutie Beauty ❤</p>
+  </div>
+  <div class="names" id="names"></div>
+  <div class="love">You are my peace, my chaos, my favourite notification and my forever person. Every nickname here is true, and I still run out of words for you.</div>
+  <div class="love">Scroll down and watch the little girl jump with you. She is as excited as I am to see your smile. 🥹</div>
+  <div class="love">You are my Bugga Shugga, my Cutie Beauty, my whole heart. Go to the next tab, your gift is waiting.</div>
+  <div class="love">Nobody makes me laugh like you do. Nobody makes my heart race like you do. Nobody is you, and that is exactly why I am crazy about you. 🔥</div>
+</section>
+
+<section id="gift">
+  <div id="giftBox">
+    <h2>Here is the gift for you</h2>
+    <div class="box" id="boxIcon">🎁</div>
+    <p style="margin-top:12px;color:var(--custard)">Double tap the gift to open a secret</p>
+  </div>
+  <h2>Tell me, baby…</h2>
+  <p style="text-align:center;color:var(--custard)">Pick what you like most. I want to know everything.</p>
+  <div id="qs"></div>
+  <div class="done">
+    <button onclick="finish()">Send my answers ❤</button>
+    <p id="sentMsg" style="margin-top:12px"></p>
+  </div>
+</section>
+
+<section id="pics">
+  <h2>My Most Favourite Pictures Of My Girlfriend</h2>
+  <div class="grid" id="grid"></div>
+  <p class="empty hidden" id="emptyPics">Pictures coming soon… 📸</p>
+</section>
+
+</main>
+</div>
+
+<script>
+/* ================= CONFIG: EDIT HERE ================= */
+const CONFIG = {
+  // This phrase must be typed to enter (case and extra spaces are ignored). Add spelling variants if you like.
+  phrase: ["qalbeqasim","qalb e qasim","qalb-e-qasim","qalbekasim","qalbeqasim","qalb e kasim","qalbekasim"],
+  secretLink: "https://drive.google.com/drive/folders/1zvPrmoeohfvTNLOD0p2yCPv86xzt1ZQP", // album link opened on double tap of the gift
+  // Answers arrive in YOUR email via Formspree (free). Paste your form link, e.g. "https://formspree.io/f/xxxxxxx"
+  formEndpoint: "https://formsubmit.co/ajax/syedqasimrizvi019@gmail.com",
+  // Pictures load automatically from the "images" folder of your GitHub repo. Fill these two:
+  githubUser: "YOUR_GITHUB_USERNAME",
+  githubRepo: "YOUR_REPO_NAME",
+  pictures: ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg", "8.jpg", "9.jpg", "10.jpg", "11.jpg", "12.jpg", "13.jpg"],                   // optional manual list, e.g. ["1.jpg"]
+  nicknames: ["Cutie Beauty","Bugga Shugga","Meri Jaan","My Baby","Kuchu Buchu","Babo","Baby Doll","Barbie Girl","Jal Pari","Princess","Mommy","Sexy Mommy","Rapunzel","Bachcha","Cutie All Over","Meri Sabkuch"],
+  questions: [
+    {q:"What do you love most about me?", o:["The way I look at you","My voice when I call you baby","The way I make you laugh"]},
+    {q:"Which kind of date makes your heart race?", o:["Candlelight dinner for two","Late night drive, music on","Cozy night in, just us"]},
+    {q:"What should I do more often?", o:["Surprise you with gifts","Call you pretty every day","Hold you for longer"]},
+    {q:"Which nickname melts you the most?", o:["Cutie Beauty","Sexy Mommy","Bugga Shugga"]},
+    {q:"What is the hottest thing I can do?", o:["Whisper something in your ear","Dress up just for you","Steal a kiss out of nowhere"]},
+    {q:"What do you want me to change, even a little?", o:["Nothing, I'm perfect 😏","Be more romantic","Give more time to you"]},
+    {q:"Where do you want me to kiss you first?", o:["Forehead, slow and sweet","Your boobies, slowly","Lower lip, no waiting"]},
+    {q:"Pick our dream trip.", o:["Beach, just us two","Mountains and a warm blanket","A city full of lights"]},
+    {q:"How do you want me to treat you in bed?", o:["Slow and gentle, like you're precious","Wild and passionate, no breaks","Teasing you until you beg"]},
+    {q:"Which part of me do you love to kiss and tease the most?", o:["My neck","My chest","My lips"]},
+    {q:"Which position is your favourite?", o:["You on top, you're in control","Me behind you, holding you close","Face to face, eyes locked"]}
+  ]
+};
+/* ===================================================== */
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let herName="", answers={};
+
+function enter(){
+  const norm=v=>v.toLowerCase().replace(/\s+/g," ").trim();
+  const ok=CONFIG.phrase.includes(norm($("#nameIn").value));
+  if(!ok){$("#err").textContent="Hmm, that is not right. Try again, baby.";return}
+  herName="my girl";$("#gate").classList.add("hidden");$("#app").classList.remove("hidden");$("#girl").classList.remove("hidden");
+}
+$("#nameIn").addEventListener("keydown",e=>{if(e.key==="Enter")enter()});
+
+// tabs
+$$("nav button").forEach(b=>b.onclick=()=>{
+  $$("nav button").forEach(x=>x.classList.toggle("on",x===b));
+  $$("section").forEach(s=>s.classList.toggle("on",s.id===b.dataset.t));
+  window.scrollTo({top:0});
+});
+
+// nicknames
+$("#names").innerHTML=CONFIG.nicknames.map(n=>`<span>${n}</span>`).join("");
+
+// questions
+$("#qs").innerHTML=CONFIG.questions.map((x,i)=>`<div class="q"><h3>${i+1}. ${x.q}</h3>${x.o.map((o,j)=>`<button class="opt" data-i="${i}" data-j="${j}">${o}</button>`).join("")}</div>`).join("");
+$$(".opt").forEach(b=>b.onclick=()=>{
+  const i=b.dataset.i;
+  $$(`.opt[data-i="${i}"]`).forEach(x=>x.classList.remove("sel"));
+  b.classList.add("sel");
+  answers[CONFIG.questions[i].q]=b.textContent;
+});
+
+// answers -> email via Formspree
+async function finish(){
+  const total=CONFIG.questions.length, msg=$("#sentMsg");
+  if(Object.keys(answers).length<total){msg.textContent="Answer all the questions first, cutie 😘";return}
+  if(!CONFIG.formEndpoint){msg.textContent="Form is not connected yet.";return}
+  try{
+    const r=await fetch(CONFIG.formEndpoint,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(answers)});
+    msg.textContent=r.ok?"Sent ❤ Thank you, baby!":"Could not send. Please try again.";
+  }catch(e){msg.textContent="Could not send. Please try again."}
+}
+
+// double tap gift -> secret link
+let lastTap=0;
+$("#boxIcon").addEventListener("click",()=>{
+  const now=Date.now();
+  if(now-lastTap<400){ if(CONFIG.secretLink.startsWith("http")) window.open(CONFIG.secretLink,"_blank"); else alert("Link not added yet 😉"); }
+  lastTap=now;
+});
+
+// pictures: auto-list the images folder from GitHub
+async function loadPics(){
+  let list=[...CONFIG.pictures];
+  if(!list.length && !CONFIG.githubUser.startsWith("YOUR")){
+    try{
+      const r=await fetch(`https://api.github.com/repos/${CONFIG.githubUser}/${CONFIG.githubRepo}/contents/images`);
+      const d=await r.json();
+      list=d.filter(f=>/\.(jpe?g|png|webp|gif)$/i.test(f.name)).map(f=>f.path);
+    }catch(e){}
+  }
+  if(list.length)$("#grid").innerHTML=list.map(p=>`<img src="${p}" alt="" loading="lazy">`).join("");
+  else $("#emptyPics").classList.remove("hidden");
+}
+loadPics();
+
+// jumping girl on scroll
+const girl=$("#girl");let lastY=0,tick=false;
+addEventListener("scroll",()=>{
+  if(tick)return;tick=true;
+  requestAnimationFrame(()=>{
+    const y=scrollY;
+    const hop=Math.abs(Math.sin(y/40))*34;
+    const tilt=Math.sin(y/60)*10;
+    girl.style.transform=`translateY(${-hop}px) rotate(${tilt}deg)`;
+    tick=false;
+  });
+},{passive:true});
+</script>
+</body>
+</html>
